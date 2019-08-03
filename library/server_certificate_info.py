@@ -7,7 +7,6 @@
 from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
-
 ANSIBLE_METADATA = {
     'metadata_version': '1.1',
     'status': ['preview'],
@@ -212,7 +211,7 @@ def main():
         certificate_info_result = {
             "connection": False,
             "server": server,
-             "msg": str(connection_fail[server])
+            "msg": str(connection_fail[server])
         }
 
     module.exit_json(changed=False, certificate_info=certificate_info_result)
