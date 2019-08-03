@@ -159,59 +159,63 @@ def main():
     proxy_port = module.params['proxy_port']
 
     connection_fail = {}
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-        ctx = SSL.Context(getattr(SSL, method))
-        ctx.set_verify(SSL.VERIFY_NONE, verify_callback)
 
-        if proxy_host:
-            try:
-                connect = "CONNECT %s:%s HTTP/1.0\r\nConnection: close\r\n\r\n" % (server, port)
-                sock.connect((proxy_host, proxy_port))
-                sock.send(connect.encode())
-                sock.recv(4096)
-                ssl_conn = SSL.Connection(ctx, sock)
-            except Exception as e:
-                connection_fail[server] = e
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    ctx = SSL.Context(getattr(SSL, method))
+    ctx.set_verify(SSL.VERIFY_NONE, verify_callback)
 
-        else:
-            try:
-                ssl_conn = SSL.Connection(ctx, sock)
-                ssl_conn.connect((server, port))
-            except Exception as e:
-                connection_fail[server] = e
+    if proxy_host:
+        try:
+            connect = "CONNECT %s:%s HTTP/1.0\r\nConnection: close\r\n\r\n" % (server, port)
+            sock.connect((proxy_host, proxy_port))
+            sock.send(connect.encode())
+            sock.recv(4096)
+            ssl_conn = SSL.Connection(ctx, sock)
+        except Exception as e:
+            connection_fail[server] = e
 
-        if not connection_fail:
-            ssl_conn.set_connect_state()
-            ssl_conn.do_handshake()
-            certificate = ssl_conn.get_peer_certificate()
+    else:
+        try:
+            ssl_conn = SSL.Connection(ctx, sock)
+            ssl_conn.connect((server, port))
+        except Exception as e:
+            connection_fail[server] = e
 
-            version = certificate.get_version()
-            algorithm = certificate.get_signature_algorithm().decode('utf-8')
-            issuer = generate_certificate_info_structure(certificate.get_issuer().get_components())
-            subject = generate_certificate_info_structure(certificate.get_subject().get_components())
-            not_before = datetime.strptime(certificate.get_notBefore().decode('ascii'), "%Y%m%d%H%M%SZ")
-            not_after = datetime.strptime(certificate.get_notAfter().decode('ascii'), "%Y%m%d%H%M%SZ")
-            serial_number = certificate.get_serial_number()
+    if not connection_fail:
+        ssl_conn.set_connect_state()
+        ssl_conn.do_handshake()
+        certificate = ssl_conn.get_peer_certificate()
 
-            certificate_info_result = {
-                "connection": True,
-                "server": server,
-                "version": version,
-                "algorithm": algorithm,
-                "issuer": issuer,
-                "subject": subject,
-                "not_before": not_before.strftime('%Y-%m-%d %H:%M:%S'),
-                "not_after": not_after.strftime('%Y-%m-%d %H:%M:%S'),
-                "serial_number": ('0%x' % serial_number).upper()
-            }
-        else:
-            certificate_info_result = {
-                "connection": False,
-                "server": server,
-                "msg": str(connection_fail[server])
-            }
+        version = certificate.get_version()
+        algorithm = certificate.get_signature_algorithm().decode('utf-8')
+        issuer = generate_certificate_info_structure(certificate.get_issuer().get_components())
+        subject = generate_certificate_info_structure(certificate.get_subject().get_components())
+        not_before = datetime.strptime(certificate.get_notBefore().decode('ascii'), "%Y%m%d%H%M%SZ")
+        not_after = datetime.strptime(certificate.get_notAfter().decode('ascii'), "%Y%m%d%H%M%SZ")
+        serial_number = certificate.get_serial_number()
 
-        module.exit_json(changed=False, certificate_info=certificate_info_result)
+        certificate_info_result = {
+            "connection": True,
+            "server": server,
+            "version": version,
+            "algorithm": algorithm,
+            "issuer": issuer,
+            "subject": subject,
+            "not_before": not_before.strftime('%Y-%m-%d %H:%M:%S'),
+            "not_after": not_after.strftime('%Y-%m-%d %H:%M:%S'),
+            "serial_number": ('0%x' % serial_number).upper()
+        }
+
+        ssl_conn.shutdown()
+        sock.close()
+    else:
+        certificate_info_result = {
+            "connection": False,
+            "server": server,
+             "msg": str(connection_fail[server])
+        }
+
+    module.exit_json(changed=False, certificate_info=certificate_info_result)
 
 
 if __name__ == "__main__":
