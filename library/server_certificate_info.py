@@ -92,7 +92,7 @@ certificate_info:
                 },
                 "not_after": "2020-12-02 12:00:00",
                 "not_before": "2018-11-28 00:00:00",
-                "serial_number": 21020869104500376438182461249190639870,
+                "serial_number": "0FD078DD48F1A2BD4D0F2BA96B6038FE",
                 "subject": {
                     "C": "US",
                     "CN": "www.example.org",
