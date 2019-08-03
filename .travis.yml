@@ -3,8 +3,7 @@ services:
   - docker
 
 before_install:
-  - cd tests/
-  - docker build -t ansible-ci:latest .
+  - docker build -t ansible-ci:latest -f tests/Dockerfile .
   - docker run -d -it --name ansible-ci ansible-ci:latest
 
 jobs:
