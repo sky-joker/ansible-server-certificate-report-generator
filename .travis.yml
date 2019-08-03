@@ -9,7 +9,7 @@ before_install:
 jobs:
   include:
     - stage: sanity test
-    - name: python 2.7
+      name: python 2.7
       script: docker exec ansible-ci /bin/sh -c '/opt/ansible_module_test.sh 2.7'
     - name: python 3.5
       script: docker exec ansible-ci /bin/sh -c '/opt/ansible_module_test.sh 3.5'
