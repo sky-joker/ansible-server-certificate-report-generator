@@ -1,0 +1,19 @@
+---
+- name: Generate of server certificate report
+  hosts: localhost
+  gather_facts: no
+  vars:
+    servers:
+      - www.example.com
+      - hogehoge22.com
+  tasks:
+    - name: Get certificate information from server.
+      server_certificate_info:
+        server: "{{ item }}"
+      loop: "{{ servers }}"
+      register: certificate_result
+
+    - name: Generate report.
+      template:
+        src: templates/server_certificate_report.j2
+        dest: server_certificate_report.html

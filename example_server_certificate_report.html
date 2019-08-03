@@ -1,0 +1,74 @@
+<html>
+<head>
+    <!-- Load the latest version -->
+    <link rel="stylesheet" href="https://unpkg.com/@clr/ui/clr-ui.min.css" />
+    <!-- Or load a specific version -->
+    <link rel="stylesheet" href="https://unpkg.com/@clr/ui@0.12.5/clr-ui.min.css" />
+
+    <!--CLARITY ICONS STYLE-->
+    <link rel="stylesheet" href="https://unpkg.com/clarity-icons/clarity-icons.min.css">
+
+    <!--CLARITY ICONS DEPENDENCY: CUSTOM ELEMENTS POLYFILL-->
+    <script src="https://unpkg.com/@webcomponents/custom-elements/custom-elements.min.js"></script>
+
+    <!--CLARITY ICONS API & ALL ICON SETS-->
+    <script src="https://unpkg.com/clarity-icons/clarity-icons.min.js"></script>
+</head>
+<body>
+    <header class="header header-6">
+       <!-- <clr-icon shape="bars" style="width: 45px; height: 60px; position:absolute; left: 10px;" class="is-highlight"></clr-icon> -->
+       <!-- <h4 style="position: absolute; left: 10px; "><font color="#FFFFFF">Server Certificate Reports</font></h4> -->
+       <font color="#FFFFFF"; style="position: absolute; top: 20px; left: 10px;" size="5">Server Certificate Report</font>
+       <clr-icon shape="note" size="45"; style="position: absolute; top: 5px; left: 300px;"></clr-icon>
+    </header>
+    <div class="main-container">
+        <div class="content-container">
+            <div class="content-area">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Server</th>
+                            <th>Connection</th>
+                            <th>Common Name</th>
+                            <th>Before</th>
+                            <th>After</th>
+                            <th>Serial Number</th>
+                            <th>Note</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>www.example.com</td>
+                            <td>True</td>
+                            <td>www.example.org</td>
+                            <td>2018-11-28 00:00:00</td>
+                            <td>2020-12-02 12:00:00</td>
+                            <td>0FD078DD48F1A2BD4D0F2BA96B6038FE</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>192.168.0.111</td>
+                            <td>True</td>
+                            <td>vcenter04.local</td>
+                            <td>2018-09-29 17:44:15</td>
+                            <td>2028-09-23 17:44:15</td>
+                            <td>0D785E24D36337941</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td bgcolor="#F54F47">hogehoge22.com</td>
+                            <td bgcolor="#F54F47">False</td>
+                            <td bgcolor="#F54F47"></td>
+                            <td bgcolor="#F54F47"></td>
+                            <td bgcolor="#F54F47"></td>
+                            <td bgcolor="#F54F47"></td>
+                            <td bgcolor="#F54F47">[Errno 8] nodename nor servname provided, or not known</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
