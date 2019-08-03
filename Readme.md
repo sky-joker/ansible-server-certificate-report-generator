@@ -10,7 +10,7 @@ In this example I will generate a HTML report using the template module from cer
 Clone this repository and install ansible and the required python modules.
 
 ```
-$ clone https://github.com/sky-joker/ansible-server-certificate-report-generator.git
+$ git clone https://github.com/sky-joker/ansible-server-certificate-report-generator.git
 $ cd ansible-server-certificate-report-generator
 $ pip install ansible
 $ pip install -r requirements.txt
