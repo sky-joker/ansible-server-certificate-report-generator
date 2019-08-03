@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/sky-joker/ansible-server-certificate-report-generator.svg?branch=master)](https://travis-ci.org/sky-joker/ansible-server-certificate-report-generator)
+
 # Ansible Server Certificate Report Generator
 
 Ansible Server Certificate Report Generator can generate the following certificate report.  
