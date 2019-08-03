@@ -1,0 +1,24 @@
+language: python
+services:
+  - docker
+
+before_install:
+  - cd tests/
+  - docker build -t ansible-ci:latest .
+  - docker run -d -it --name ansible-ci ansible-ci:latest
+
+jobs:
+  include:
+    - stage: sanity test
+      name: python 2.6
+      script: docker exec ansible-ci /bin/sh -c '/opt/ansible_module_test.sh 2.6'
+    - name: python 2.7
+      script: docker exec ansible-ci /bin/sh -c '/opt/ansible_module_test.sh 2.7'
+    - name: python 3.5
+      script: docker exec ansible-ci /bin/sh -c '/opt/ansible_module_test.sh 3.5'
+    - name: python 3.6
+      script: docker exec ansible-ci /bin/sh -c '/opt/ansible_module_test.sh 3.6'
+    - name: python 3.7
+      script: docker exec ansible-ci /bin/sh -c '/opt/ansible_module_test.sh 3.7'
+    - name: python 3.8
+      script: docker exec ansible-ci /bin/sh -c '/opt/ansible_module_test.sh 3.8'

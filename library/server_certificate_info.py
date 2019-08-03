@@ -59,7 +59,7 @@ options:
         type: int
 '''
 
-EXAMPLE = '''
+EXAMPLES = '''
 - name: Get certificate information from server.
   server_certificate_info:
     server: www.example.com
@@ -211,8 +211,7 @@ def main():
                 "msg": str(connection_fail[server])
             }
 
-        result = dict(changed=False)
-        module.exit_json(**result, certificate_info=certificate_info_result)
+        module.exit_json(changed=False, certificate_info=certificate_info_result)
 
 
 if __name__ == "__main__":
