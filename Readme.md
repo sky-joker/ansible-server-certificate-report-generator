@@ -45,6 +45,32 @@ Create the next Playbook and add the server list you want to get the certificate
         dest: server_certificate_report.html
 ```
 
+If use Proxy, add the option as follows.
+
+```yaml
+---
+- name: Generate of server certificate report
+  hosts: localhost
+  gather_facts: no
+  vars:
+    servers:
+      - www.example.com
+      - 192.168.0.111
+  tasks:
+    - name: Get certificate information from server.
+      server_certificate_info:
+        server: "{{ item }}"
+        proxy_host: proxy address
+        proxy_port: proxy port
+      loop: "{{ servers }}"
+      register: certificate_result
+
+    - name: Generate report.
+      template:
+        src: templates/server_certificate_report.j2
+        dest: server_certificate_report.html
+```
+
 ### Running the playbook
 
 Run playbook using `ansible-playbook` command:
