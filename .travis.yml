@@ -19,3 +19,15 @@ jobs:
       script: docker exec ansible-ci /bin/sh -c '/opt/ansible_module_test.sh 3.7'
     - name: python 3.8
       script: docker exec ansible-ci /bin/sh -c '/opt/ansible_module_test.sh 3.8'
+
+    - stage: playbook run test
+      name: python 2.7
+      python: 2.7
+      script:
+        - pip install -r requirements.txt
+        - ANSIBLE_LIBRARY=./library ansible-playbook tests/test_server_certificate_info.yml
+    - name: python 3.5
+      python: 3.5
+      script:
+        - pip install -r requirements.txt
+        - ANSIBLE_LIBRARY=./library ansible-playbook tests/test_server_certificate_info.yml

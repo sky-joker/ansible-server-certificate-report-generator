@@ -1,0 +1,46 @@
+---
+- name: Generate of server certificate report
+  hosts: localhost
+  gather_facts: no
+  vars:
+    servers:
+      - www.example.com
+  tasks:
+    - name: Get certificate information from server.
+      server_certificate_info:
+        server: "{{ item }}"
+      loop: "{{ servers }}"
+      register: certificate_result
+
+    - name: To check that the get certificate information exists.
+      assert:
+        that:
+          - certificate_result.results | length > 0
+
+    - name: To check if the certificate details information exists.
+      assert:
+        that:
+          - certificate_result.results.0.certificate_info.algorithm | length > 0
+          - certificate_result.results.0.certificate_info.connection == True
+          - certificate_result.results.0.certificate_info.issuer | length > 0
+          - certificate_result.results.0.certificate_info.not_after | length > 0
+          - certificate_result.results.0.certificate_info.not_before | length > 0
+          - certificate_result.results.0.certificate_info.serial_number | length > 0
+          - certificate_result.results.0.certificate_info.server | length > 0
+          - certificate_result.results.0.certificate_info.subject | length > 0
+          - certificate_result.results.0.certificate_info.version > 0
+
+    - name: Generate report.
+      template:
+        src: ../templates/server_certificate_report.j2
+        dest: server_certificate_report.html
+
+    - name: To check html report file status.
+      stat:
+        path: server_certificate_report.html
+      register: check_report_exists_result
+
+    - name: To check if the html report file exists.
+      assert:
+        that:
+          - check_report_exists_result.stat.exists is sameas true
