@@ -5,7 +5,7 @@ services:
 before_install:
   - if [ -n "$SANITY_TEST" ]; then docker build -t ansible-ci:latest -f tests/Dockerfile . ; fi
   - if [ -n "$SANITY_TEST" ]; then docker run -d -it --name ansible-ci ansible-ci:latest ; fi
-  - if [ -n "$PLAYBOOK_RUN_TEST" ]; pip install -r requirements.txt ; fi
+  - if [ -n "$PLAYBOOK_RUN_TEST" ]; then pip install -r requirements.txt ; fi
 
 jobs:
   include:
