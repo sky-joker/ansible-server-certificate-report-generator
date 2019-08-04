@@ -3,31 +3,35 @@ services:
   - docker
 
 before_install:
-  - docker build -t ansible-ci:latest -f tests/Dockerfile .
-  - docker run -d -it --name ansible-ci ansible-ci:latest
+  - if [ -n "$SANITY_TEST" ]; then docker build -t ansible-ci:latest -f tests/Dockerfile . ; fi
+  - if [ -n "$SANITY_TEST" ]; then docker run -d -it --name ansible-ci ansible-ci:latest ; fi
+  - if [ -n "$PLAYBOOK_RUN_TEST" ]; pip install -r requirements.txt ; fi
 
 jobs:
   include:
     - stage: sanity test
       name: python 2.7
+      env: SANITY_TEST=yes
       script: docker exec ansible-ci /bin/sh -c '/opt/ansible_module_test.sh 2.7'
     - name: python 3.5
+      env: SANITY_TEST=yes
       script: docker exec ansible-ci /bin/sh -c '/opt/ansible_module_test.sh 3.5'
     - name: python 3.6
+      env: SANITY_TEST=yes
       script: docker exec ansible-ci /bin/sh -c '/opt/ansible_module_test.sh 3.6'
     - name: python 3.7
+      env: SANITY_TEST=yes
       script: docker exec ansible-ci /bin/sh -c '/opt/ansible_module_test.sh 3.7'
     - name: python 3.8
+      env: SANITY_TEST=yes
       script: docker exec ansible-ci /bin/sh -c '/opt/ansible_module_test.sh 3.8'
 
     - stage: playbook run test
       name: python 2.7
+      env: PLAYBOOK_RUN_TEST=yes
       python: 2.7
-      script:
-        - pip install -r requirements.txt
-        - ANSIBLE_LIBRARY=./library ansible-playbook tests/test_server_certificate_info.yml
+      script: ANSIBLE_LIBRARY=./library ansible-playbook tests/test_server_certificate_info.yml
     - name: python 3.5
+      env: PLAYBOOK_RUN_TEST=yes
       python: 3.5
-      script:
-        - pip install -r requirements.txt
-        - ANSIBLE_LIBRARY=./library ansible-playbook tests/test_server_certificate_info.yml
+      script: ANSIBLE_LIBRARY=./library ansible-playbook tests/test_server_certificate_info.yml
