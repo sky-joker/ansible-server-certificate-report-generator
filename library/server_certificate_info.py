@@ -206,7 +206,6 @@ def main():
         }
 
         ssl_conn.shutdown()
-        sock.close()
     else:
         certificate_info_result = {
             "connection": False,
@@ -214,6 +213,7 @@ def main():
             "msg": str(connection_fail[server])
         }
 
+    sock.close()
     module.exit_json(changed=False, certificate_info=certificate_info_result)
 
 
