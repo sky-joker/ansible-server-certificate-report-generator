@@ -181,6 +181,7 @@ def main():
             connection_fail[server] = e
 
     if not connection_fail:
+        ssl_conn.set_tlsext_host_name(server.encode())
         ssl_conn.set_connect_state()
         ssl_conn.do_handshake()
         certificate = ssl_conn.get_peer_certificate()
@@ -192,6 +193,7 @@ def main():
         not_before = datetime.strptime(certificate.get_notBefore().decode('ascii'), "%Y%m%d%H%M%SZ")
         not_after = datetime.strptime(certificate.get_notAfter().decode('ascii'), "%Y%m%d%H%M%SZ")
         serial_number = certificate.get_serial_number()
+        expired = certificate.has_expired()
 
         certificate_info_result = {
             "connection": True,
@@ -202,7 +204,8 @@ def main():
             "subject": subject,
             "not_before": not_before.strftime('%Y-%m-%d %H:%M:%S'),
             "not_after": not_after.strftime('%Y-%m-%d %H:%M:%S'),
-            "serial_number": ('0%x' % serial_number).upper()
+            "serial_number": ('0%x' % serial_number).upper(),
+            "expired": expired
         }
 
         ssl_conn.shutdown()
