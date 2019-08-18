@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/sky-joker/ansible-server-certificate-report-generator.svg?branch=master)](https://travis-ci.org/sky-joker/ansible-server-certificate-report-generator)
+[![Build Status](https://travis-ci.org/sky-joker/ansible-server-certificate-report-generator.svg?branch=master)](https://travis-ci.org/sky-joker/ansible-server-certificate-report-generator) [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 # Ansible Server Certificate Report Generator
 
@@ -14,7 +14,6 @@ Clone this repository and install ansible and the required python modules.
 ```
 $ git clone https://github.com/sky-joker/ansible-server-certificate-report-generator.git
 $ cd ansible-server-certificate-report-generator
-$ pip install ansible
 $ pip install -r requirements.txt
 ```
 
