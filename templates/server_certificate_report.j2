@@ -29,6 +29,7 @@
                         <tr>
                             <th>Server</th>
                             <th>Connection</th>
+                            <th>Expired</th>
                             <th>Common Name</th>
                             <th>Before</th>
                             <th>After</th>
@@ -42,6 +43,11 @@
                         <tr>
                             <td>{{ certificate['certificate_info']['server'] }}</td>
                             <td>{{ certificate['certificate_info']['connection'] }}</td>
+{% if certificate['certificate_info']['expired'] is sameas false %}
+                            <td>{{ certificate['certificate_info']['expired'] }}</td>
+{% else %}
+                            <td bgcolor="#F54F47">{{ certificate['certificate_info']['expired'] }}</td>
+{% endif %}
                             <td>{{ certificate['certificate_info']['subject']['CN'] }}</td>
                             <td>{{ certificate['certificate_info']['not_before'] }}</td>
                             <td>{{ certificate['certificate_info']['not_after'] }}</td>
@@ -52,6 +58,7 @@
                         <tr>
                             <td bgcolor="#F54F47">{{ certificate['certificate_info']['server'] }}</td>
                             <td bgcolor="#F54F47">{{ certificate['certificate_info']['connection'] }}</td>
+                            <td bgcolor="#F54F47"></td>
                             <td bgcolor="#F54F47"></td>
                             <td bgcolor="#F54F47"></td>
                             <td bgcolor="#F54F47"></td>
