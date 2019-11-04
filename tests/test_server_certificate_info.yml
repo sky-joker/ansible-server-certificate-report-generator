@@ -7,9 +7,11 @@
       - www.example.com
   tasks:
     - name: Get certificate information from server.
-      server_certificate_info:
-        server: "{{ item }}"
+      get_certificate:
+        host: "{{ item }}"
+        port: 443
       loop: "{{ servers }}"
+      ignore_errors: yes
       register: certificate_result
 
     - name: To check that the get certificate information exists.
@@ -20,15 +22,13 @@
     - name: To check if the certificate details information exists.
       assert:
         that:
-          - certificate_result.results.0.certificate_info.algorithm | length > 0
-          - certificate_result.results.0.certificate_info.connection == True
-          - certificate_result.results.0.certificate_info.issuer | length > 0
-          - certificate_result.results.0.certificate_info.not_after | length > 0
-          - certificate_result.results.0.certificate_info.not_before | length > 0
-          - certificate_result.results.0.certificate_info.serial_number | length > 0
-          - certificate_result.results.0.certificate_info.server | length > 0
-          - certificate_result.results.0.certificate_info.subject | length > 0
-          - certificate_result.results.0.certificate_info.version > 0
+          - certificate_result.results.0.signature_algorithm | length > 0
+          - certificate_result.results.0.issuer | length > 0
+          - certificate_result.results.0.not_after | length > 0
+          - certificate_result.results.0.not_before | length > 0
+          - certificate_result.results.0.serial_number | string | length > 0
+          - certificate_result.results.0.subject | length > 0
+          - certificate_result.results.0.version > 0
 
     - name: Generate report.
       template:

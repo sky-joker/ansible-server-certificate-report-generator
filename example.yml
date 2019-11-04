@@ -8,9 +8,11 @@
       - hogehoge22.com
   tasks:
     - name: Get certificate information from server.
-      server_certificate_info:
-        server: "{{ item }}"
+      get_certificate:
+        host: "{{ item }}"
+        port: 443
       loop: "{{ servers }}"
+      ignore_errors: yes
       register: certificate_result
 
     - name: Generate report.

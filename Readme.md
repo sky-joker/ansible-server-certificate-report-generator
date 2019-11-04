@@ -7,6 +7,11 @@ In this example I will generate a HTML report using the template module from cer
 
 ![](images/server_certificate_report.png)
 
+## Requirements
+
+* ansible >= 2.9
+* pyOpenSSL
+
 ## Install
 
 Clone this repository and install ansible and the required python modules.
