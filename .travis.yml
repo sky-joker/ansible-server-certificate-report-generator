@@ -1,23 +1,21 @@
 language: python
 dist: xenial
-services:
-  - docker
 
 jobs:
   include:
     - stage: playbook run test
       name: python 2.7
       python: 2.7
-      script: ANSIBLE_LIBRARY=./library ansible-playbook tests/test_server_certificate_info.yml
+      script: ansible-playbook tests/test_server_certificate_info.yml
     - name: python 3.5
       python: 3.5
-      script: ANSIBLE_LIBRARY=./library ansible-playbook tests/test_server_certificate_info.yml
+      script: ansible-playbook tests/test_server_certificate_info.yml
     - name: python 3.6
       python: 3.5
-      script: ANSIBLE_LIBRARY=./library ansible-playbook tests/test_server_certificate_info.yml
+      script: ansible-playbook tests/test_server_certificate_info.yml
     - name: python 3.7
       python: 3.7
-      script: ANSIBLE_LIBRARY=./library ansible-playbook tests/test_server_certificate_info.yml
+      script: ansible-playbook tests/test_server_certificate_info.yml
     - name: python 3.8
       python: 3.8-dev
-      script: ANSIBLE_LIBRARY=./library ansible-playbook tests/test_server_certificate_info.yml
+      script: ansible-playbook tests/test_server_certificate_info.yml
