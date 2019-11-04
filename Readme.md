@@ -40,9 +40,11 @@ Create the next Playbook and add the server list you want to get the certificate
       - 192.168.0.111
   tasks:
     - name: Get certificate information from server.
-      server_certificate_info:
-        server: "{{ item }}"
+      get_certificate:
+        host: "{{ item }}"
+        port: 443
       loop: "{{ servers }}"
+      ignore_errors: yes
       register: certificate_result
 
     - name: Generate report.
@@ -64,11 +66,13 @@ If use Proxy, add the option as follows.
       - 192.168.0.111
   tasks:
     - name: Get certificate information from server.
-      server_certificate_info:
-        server: "{{ item }}"
+      get_certificate:
+        host: "{{ item }}"
+        port: 443
         proxy_host: proxy address
         proxy_port: proxy port
       loop: "{{ servers }}"
+      ignore_errors: yes
       register: certificate_result
 
     - name: Generate report.
